@@ -1,12 +1,15 @@
 ---
 title: "Lab 1: Introduction to Quarto"
-author: "Your name goes here!"
-date: "Insert the date here!"
+author: "Skylar Richards"
+date: "26 Septermber 2024"
 format: html
 editor: source
 embed-resources: true
 execute:
-  echo: false
+  echo: true
+  error: true 
+     
+  
 ---
 
 # Part Two: Exploring Quarto Documents
@@ -30,7 +33,11 @@ document will render even if there are errors.
 #| echo: true
 #| label: practicing-running-code
 
-1 + 1
+# Load a dataset into the R Environment.
+data(ToothGrowth)
+
+# Look at the summary of the variables in the dataset.
+summary(ToothGrowth)
 ```
 
 **Question 3** -- Let's spice this code up a bit. Delete `1 + 1` from the code
@@ -42,11 +49,11 @@ chunk and paste in the code provided in the Lab 1 instructions.
 `?ToothGrowth` (or alternatively `help(ToothGrowth)`.Use the information that
 pops up in the *Help* pane in RStudio to fill in the blanks below. 
 
-*This dataset investigates the effect of _____ on tooth growth in ____.*
+*This dataset investigates the effect of odontoblasts on tooth growth in Guinea pigs.*
 
-*The two supplement delivery methods include OJ (____) and VC (____).*
+*The two supplement delivery methods include OJ (Orange Juice) and VC (Vitamin C).*
 
-*`ToothGrowth` is a data frame with ___observations and ____ variables.*
+*`ToothGrowth` is a data frame with 60 observations and 3 variables.*
 
 **Question 5** -- *Before* the code chunk, change the "Running the Provided
 Code" section header to a header that better describes the contents of this
@@ -60,7 +67,18 @@ section (e.g., Tooth Growth Dataset).
 #| echo: true
 #| label: creating-a-plot
 
-plot(pressure)
+library(tidyverse)
+
+ggplot(data = ToothGrowth, 
+       mapping = aes(x = supp, y = len)) +
+  geom_boxplot() +
+  labs(x = "Supplement", y = "Length of Teeth (mm)")
+
+ToothGrowth %>% 
+  mutate(dose = as.factor(dose)) %>% 
+  ggplot(mapping = aes(x = dose, y = len)) +
+  geom_boxplot() +
+  labs(x = "Dose of Supplement (mg/day)", y = "Length of Teeth (mm)")
 ```
 
 Now, run this code chunk! You should see two side-by-side boxplots, one plot
